@@ -6,4 +6,5 @@ package cn.zhengjianglong.budsrpc.rpc.proxy;
  */
 public class BudsRpcProxy {
 
+
 }

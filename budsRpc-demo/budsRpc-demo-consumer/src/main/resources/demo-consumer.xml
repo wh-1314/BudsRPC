@@ -1,0 +1,10 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:budsRPC="http://zhengjianglong.cn/schema/budsRPC"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://zhengjianglong.cn/schema/budsRPC http://zhengjianglong.cn/schema/budsRPC.xsd">
+
+
+    <budsRPC:reference id="demoService" interface="cn.zhengjianglong.budsrpc.consumer.DemoService"/>
+
+</beans>
