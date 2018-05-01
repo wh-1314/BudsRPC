@@ -1,0 +1,16 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:budsRPC="http://zhengjianglong.cn/schema/budsRPC"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://zhengjianglong.cn/schema/budsRPC http://zhengjianglong.cn/schema/budsRPC.xsd">
+
+    <bean id="helloService" class="cn.zhengjianglong.budsrpc.demo.provider.service.HelloServiceImpl"/>
+
+    <bean id="actionService" class="cn.zhengjianglong.budsrpc.demo.provider.service.ActionServiceImpl"/>
+
+    <!-- declare the service interface to be exported -->
+    <budsRPC:service ref="helloService" interface="cn.zhengjianglong.budsrpc.demo.api.service.HelloService"/>
+
+    <budsRPC:service ref="actionService" interface="cn.zhengjianglong.budsrpc.demo.api.service.ActionService"/>
+
+</beans>

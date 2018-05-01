@@ -3,7 +3,9 @@ package cn.zhengjianglong.budsrpc.rpc.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import cn.zhengjianglong.budsrpc.rpc.Invocation;
 import cn.zhengjianglong.budsrpc.rpc.Invoker;
+import cn.zhengjianglong.budsrpc.rpc.SimpleInvocation;
 
 /**
  * @author: zhengjianglong
@@ -20,7 +22,9 @@ public class InvokerInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("[BudsRPC] pre invoke");
 
-        Object result = invoker.invoke();
+
+        Invocation invocation = new SimpleInvocation(method.getName(), method.getParameterTypes(), args);
+        Object result = invoker.invoke(invocation);
 
         System.out.println("[BudsRPC] after invoke");
         return result;

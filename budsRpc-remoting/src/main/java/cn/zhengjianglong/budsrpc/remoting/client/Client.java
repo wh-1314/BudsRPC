@@ -1,5 +1,7 @@
 package cn.zhengjianglong.budsrpc.remoting.client;
 
+import cn.zhengjianglong.budsrpc.remoting.request.Request;
+
 /**
  * @author: zhengjianglong
  * @create: 2018-04-30 21:20
@@ -9,9 +11,9 @@ public interface Client {
     /**
      * 发送信息
      *
-     * @param msg
+     * @param request
      */
-    void send(Object msg);
+    void send(Request request);
 
     /**
      * reconnect.

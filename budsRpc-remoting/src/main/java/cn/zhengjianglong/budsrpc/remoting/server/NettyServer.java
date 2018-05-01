@@ -51,6 +51,7 @@ public class NettyServer implements Server {
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
+            System.out.println("启动服务, 端口:" + bindPort);
             // 绑定端口，开始接收进来的连接
             ChannelFuture f = b.bind(bindPort).sync(); // (7)
             // 等待服务器  socket 关闭 。
@@ -69,5 +70,9 @@ public class NettyServer implements Server {
     @Override
     public Channel getChannel(InetSocketAddress remoteAddress) {
         return null;
+    }
+
+    public static void main(String[] args) {
+        new NettyServer("", 8500, new ServerHandler()).bind();
     }
 }

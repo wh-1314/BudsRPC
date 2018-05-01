@@ -17,6 +17,8 @@
     <url>http://www.example.com</url>
     <modules>
         <module>budsRpc-demo-consumer</module>
+        <module>budsRpc-demo-provider</module>
+        <module>budsRpc-demo-api</module>
     </modules>
 
     <properties>

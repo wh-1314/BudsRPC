@@ -25,7 +25,39 @@
         </xsd:complexContent>
     </xsd:complexType>
 
+
+    <xsd:complexType name="serviceType">
+        <xsd:complexContent>
+            <xsd:extension base="beans:identifiedType">
+                <xsd:attribute name="interface" type="xsd:token" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            <![CDATA[ Defines the interface to advertise for this service in the service registry. ]]></xsd:documentation>
+                        <xsd:appinfo>
+                            <tool:annotation>
+                                <tool:expected-type type="java.lang.Class"/>
+                            </tool:annotation>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="ref" type="xsd:string" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            <![CDATA[ The service implementation instance bean id. ]]></xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
     <xsd:element name="reference" type="referenceType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ Reference service config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:element name="service" type="serviceType">
         <xsd:annotation>
             <xsd:documentation><![CDATA[ Reference service config ]]></xsd:documentation>
         </xsd:annotation>

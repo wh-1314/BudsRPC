@@ -5,6 +5,8 @@
        http://zhengjianglong.cn/schema/budsRPC http://zhengjianglong.cn/schema/budsRPC.xsd">
 
 
-    <budsRPC:reference id="demoService" interface="cn.zhengjianglong.budsrpc.consumer.DemoService"/>
+    <budsRPC:reference id="helloService" interface="cn.zhengjianglong.budsrpc.demo.api.service.HelloService"/>
+
+    <budsRPC:reference id="actionService" interface="cn.zhengjianglong.budsrpc.demo.api.service.ActionService"/>
 
 </beans>

@@ -13,5 +13,5 @@ public interface Invoker<T> {
     Class<T> getInterface();
 
 
-    Object invoke();
+    Object invoke(Invocation invocation) throws Throwable;
 }

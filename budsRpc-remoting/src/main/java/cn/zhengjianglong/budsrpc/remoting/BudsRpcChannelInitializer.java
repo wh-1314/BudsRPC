@@ -29,6 +29,6 @@ public class BudsRpcChannelInitializer extends ChannelInitializer<SocketChannel>
         pipeline.addLast("encoder", new StringEncoder());
         pipeline.addLast("handler", channelHandler);
 
-        System.out.println("SimpleChatClient:" + socketChannel.remoteAddress() + "连接上");
+        // System.out.println(socketChannel.remoteAddress() + "连接上");
     }
 }

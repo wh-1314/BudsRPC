@@ -14,6 +14,7 @@ public class ReferenceConfig<T> {
     private Class<?> interfaceClass;
     // 接口代理类引用
     private transient volatile T ref;
+    private String id;
 
     private transient volatile Invoker<?> invoker;
     // 代理工厂
@@ -74,5 +75,13 @@ public class ReferenceConfig<T> {
 
     public void setRef(T ref) {
         this.ref = ref;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
