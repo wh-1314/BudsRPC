@@ -33,12 +33,12 @@ public class ProxyInvoker<T> implements Invoker<T> {
     @Override
     public Object invoke(Invocation invocation) throws Throwable {
 
+        Method method = proxy.getClass().getMethod(invocation.getMethodName(), invocation.getParameterTypes());
+
         System.out.println("调用接口：" + type);
         System.out.println("调用方法：" + invocation.getMethodName());
 
-        // 调用Person类中的run方法
-        Method method = type.getMethod(invocation.getMethodName());
-        return method.invoke(proxy);
+        return method.invoke(proxy, invocation.getArguments());
     }
 
 }

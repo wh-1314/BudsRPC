@@ -11,4 +11,9 @@ public class HelloServiceImpl implements HelloService {
     public String sayHello() {
         return "hello world!";
     }
+
+    @Override
+    public void doNothing() {
+        System.out.println("===============");
+    }
 }

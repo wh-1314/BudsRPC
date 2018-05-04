@@ -15,7 +15,7 @@ public class NettyTest {
     public void server() {
         ProviderServerHandler
                 providerServerHandler = new ProviderServerHandler();
-        NettyServer server = new NettyServer("localhost", 8501, providerServerHandler);
+        NettyServer server = new NettyServer(8501, providerServerHandler);
         server.bind();
     }
 

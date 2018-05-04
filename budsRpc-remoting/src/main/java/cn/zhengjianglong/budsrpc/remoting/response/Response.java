@@ -1,34 +1,40 @@
 package cn.zhengjianglong.budsrpc.remoting.response;
 
+import java.io.Serializable;
+
 /**
  * @author: zhengjianglong
  * @create: 2018-05-01 14:13
  */
-public class Response {
+public class Response implements Serializable {
     // 唯一标识
-    private long mId = 0;
+    private long id = 0;
     // 服务端响应结果
-    private Object mResult;
+    private Object result;
 
-    public Response(long mId, Object mResult) {
-        this.mId = mId;
-        this.mResult = mResult;
+    public Response(long id) {
+        this.id = id;
+    }
+
+    public Response(long mId, Object result) {
+        this.id = mId;
+        this.result = result;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
-    public void setId(long mId) {
-        this.mId = mId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public Object getmResult() {
-        return mResult;
+    public Object getResult() {
+        return result;
     }
 
-    public void setmResult(Object mResult) {
-        this.mResult = mResult;
+    public void setResult(Object result) {
+        this.result = result;
     }
 }
 

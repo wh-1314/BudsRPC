@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.zhengjianglong.budsrpc.remoting.BudsRpcChannelInitializer;
-import cn.zhengjianglong.budsrpc.remoting.request.Request;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -28,7 +27,7 @@ public class NettyClient implements Client {
     private int port;
     private ChannelHandler channelHandler;
     // 请求队列
-    private BlockingQueue<Request> requestQueue = new LinkedBlockingQueue();
+    private BlockingQueue<Object> requestQueue = new LinkedBlockingQueue();
 
     public NettyClient(String host, int port, ChannelHandler channelHandler) {
         this.host = host;
@@ -46,18 +45,12 @@ public class NettyClient implements Client {
             channel = bootstrap.connect(host, port).sync().channel();
             while (true) {
                 try {
-                    Request request = requestQueue.take();
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(request.getId()).append("##")
-                            .append(request.getmData()).append("\r\n");
-
-                    System.out.println("发送给服务端：" + request);
-                    channel.writeAndFlush(sb.toString());
+                    Object request = requestQueue.take();
+                    channel.writeAndFlush(request);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         } catch (Exception e) {
             logger.error("[BudsRPC] netty init exception.", e);
         } finally {
@@ -70,7 +63,7 @@ public class NettyClient implements Client {
     }
 
     @Override
-    public void send(Request msg) {
+    public void send(Object msg) {
         try {
             requestQueue.put(msg);
         } catch (Exception e) {
@@ -88,7 +81,4 @@ public class NettyClient implements Client {
         }
     }
 
-    public static void main(String[] args) {
-        new NettyClient("localhost", 8500, new BudsRpcClientHandler());
-    }
 }

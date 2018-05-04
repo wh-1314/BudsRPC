@@ -7,4 +7,6 @@ package cn.zhengjianglong.budsrpc.demo.api.service;
 public interface HelloService {
 
     public String sayHello();
+
+    public void doNothing();
 }

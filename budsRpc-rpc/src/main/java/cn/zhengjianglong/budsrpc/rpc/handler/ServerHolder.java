@@ -1,5 +1,8 @@
 package cn.zhengjianglong.budsrpc.rpc.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.zhengjianglong.budsrpc.remoting.server.NettyServer;
 import cn.zhengjianglong.budsrpc.rpc.Invoker;
 
@@ -8,6 +11,8 @@ import cn.zhengjianglong.budsrpc.rpc.Invoker;
  * @create: 2018-05-01 12:33
  */
 public class ServerHolder {
+    Logger logger = LoggerFactory.getLogger(ServerHolder.class);
+
     private static NettyServer server;
     private static ProviderServerHandler providerServerHandler;
     private static Thread serverThread;
@@ -18,7 +23,7 @@ public class ServerHolder {
         /**
          * 启动一个线程
          */
-        server = new NettyServer("localhost", 8501, providerServerHandler);
+        server = new NettyServer(8501, providerServerHandler);
         serverThread = new Thread(new Runnable() {
             @Override
             public void run() {

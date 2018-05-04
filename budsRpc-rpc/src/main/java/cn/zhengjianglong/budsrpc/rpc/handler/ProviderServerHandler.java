@@ -6,8 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.zhengjianglong.budsrpc.remoting.request.Request;
+import cn.zhengjianglong.budsrpc.remoting.response.Response;
+import cn.zhengjianglong.budsrpc.rpc.Invocation;
 import cn.zhengjianglong.budsrpc.rpc.Invoker;
-import cn.zhengjianglong.budsrpc.rpc.SimpleInvocation;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,7 +20,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @create: 2018-05-01 10:14
  */
 @ChannelHandler.Sharable
-public class ProviderServerHandler extends SimpleChannelInboundHandler<String> {
+public class ProviderServerHandler extends SimpleChannelInboundHandler<Request> {
     private static final Logger logger = LoggerFactory.getLogger(ProviderServerHandler.class);
     private Map<String, Invoker> invokerMap = new ConcurrentHashMap<>();
 
@@ -32,45 +34,37 @@ public class ProviderServerHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
+    protected void messageReceived(ChannelHandlerContext ctx, Request request) throws Exception {
+        Response response = new Response(request.getId());
         try {
             Channel incoming = ctx.channel();
-            System.out.println("服务收到的信息:" + msg + "  地址：" + incoming.remoteAddress());
+            System.out.println("服务收到的信息:" + request + "  地址：" + incoming.remoteAddress());
 
-            if (msg.equals("PING")) {
-                ctx.writeAndFlush("SUCCESS\r\n");
-                return;
-            }
-            String[] cmd = msg.split("##");
-            String mId = cmd[0];
-            String service = cmd[1];
-            String method = cmd[2];
-            String paramsTypes = cmd[3];
-            String paramValues = cmd[4];
-
-            logger.info("service=" + service);
-            Invoker invoker = invokerMap.get(service);
-            if (invoker == null) {
-                ctx.writeAndFlush(mId + "##EXCEPTION:can't find\r\n");
-            } else {
-                String[] classStr = paramsTypes.split(" ");
-                String[] argumentsStr = paramValues.split(" ");
-
-                Class[] paramsClass = new Class[0];
-                Object[] arguments = new Object[0];
-
-                SimpleInvocation invocation = new SimpleInvocation(method, paramsClass, arguments);
+            Object data = request.getData();
+            if (data instanceof Invocation) {
                 try {
-                    Object object = invoker.invoke(invocation);
-                    ctx.writeAndFlush(mId + "##" + object.toString() + "\r\n");
+                    Invocation invocation = (Invocation) data;
+                    System.out.println(invocation.getInterface().getName());
+                    Invoker invoker = invokerMap.get(invocation.getInterface().getName());
+
+                    if (null != invoker) {
+                        Object object = invoker.invoke(invocation);
+                        response.setResult(object);
+                    } else {
+                        response.setResult("Unfind");
+                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    ctx.writeAndFlush(mId + "##EXCEPTION:call error" + "\r\n");
+                    response.setResult("EXCEPTION:call error");
                 }
+            } else {
+                response.setResult("Unsupport.");
             }
         } catch (Exception e) {
-            ctx.writeAndFlush("EXCEPTION##call error" + "\r\n");
+            response.setResult("EXCEPTION##call error");
             e.printStackTrace();
+        } finally {
+            ctx.writeAndFlush(response);
         }
     }
 

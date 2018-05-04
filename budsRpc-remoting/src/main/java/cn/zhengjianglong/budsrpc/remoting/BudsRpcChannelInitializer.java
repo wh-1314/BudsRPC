@@ -1,13 +1,10 @@
 package cn.zhengjianglong.budsrpc.remoting;
 
+import cn.zhengjianglong.budsrpc.remoting.handler.NettyCodecAdapter;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * @author: zhengjianglong
@@ -24,11 +21,10 @@ public class BudsRpcChannelInitializer extends ChannelInitializer<SocketChannel>
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
-        pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-        pipeline.addLast("decoder", new StringDecoder());
-        pipeline.addLast("encoder", new StringEncoder());
-        pipeline.addLast("handler", channelHandler);
+        NettyCodecAdapter adapter = new NettyCodecAdapter();
 
-        // System.out.println(socketChannel.remoteAddress() + "连接上");
+        pipeline.addLast("decoder", adapter.getDecoder());
+        pipeline.addLast("encoder", adapter.getEncoder());
+        pipeline.addLast("handler", channelHandler);
     }
 }

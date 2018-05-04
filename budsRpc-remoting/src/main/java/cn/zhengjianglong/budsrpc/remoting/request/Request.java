@@ -1,28 +1,29 @@
 package cn.zhengjianglong.budsrpc.remoting.request;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author: zhengjianglong
  * @create: 2018-05-01 13:28
  */
-public class Request {
+public class Request implements Serializable{
     private static final AtomicLong INVOKE_ID = new AtomicLong(0);
-    // 请求数据
-    private Object mData;
     // 表示请求的唯一Id, 用来做异步处理使用。根据这个mid去获取结果
-    private final long mId;
+    private final long id;
+    // 请求数据
+    private Object data;
 
     public Request() {
-        mId = newId();
+        id = newId();
     }
 
-    public Object getmData() {
-        return mData;
+    public Object getData() {
+        return data;
     }
 
-    public void setmData(Object mData) {
-        this.mData = mData;
+    public void setData(Object Data) {
+        this.data = Data;
     }
 
     private static long newId() {
@@ -31,14 +32,14 @@ public class Request {
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     @Override
     public String toString() {
         return "Request{" +
-                "mData=" + mData +
-                ", mId=" + mId +
+                "mData=" + data +
+                ", mId=" + id +
                 '}';
     }
 }

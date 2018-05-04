@@ -28,15 +28,11 @@ public class NettyServer implements Server {
 
     // 对应的处理器
     private ChannelHandler channelHandler;
-    private String bindIp;
     private int bindPort;
 
-    public NettyServer(String bindIp, int bindPort, ChannelHandler channelHandler) {
-        bindAddress = new InetSocketAddress(bindIp, bindPort);
+    public NettyServer(int bindPort, ChannelHandler channelHandler) {
         this.channelHandler = channelHandler;
-        this.bindIp = bindIp;
         this.bindPort = bindPort;
-        // bind();
     }
 
     public void bind() {
@@ -70,9 +66,5 @@ public class NettyServer implements Server {
     @Override
     public Channel getChannel(InetSocketAddress remoteAddress) {
         return null;
-    }
-
-    public static void main(String[] args) {
-        new NettyServer("", 8500, new ServerHandler()).bind();
     }
 }

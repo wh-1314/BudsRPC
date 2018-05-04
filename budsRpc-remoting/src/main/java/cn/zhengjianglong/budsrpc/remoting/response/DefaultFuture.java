@@ -66,9 +66,11 @@ public class DefaultFuture implements ResponseFuture {
     private void doReceived(Response res) {
         lock.lock();
         try {
-            response = res;
-            if (done != null) {
-                done.signal();
+            if (res != null) {
+                response = res;
+                if (done != null) {
+                    done.signal();
+                }
             }
         } finally {
             lock.unlock();
@@ -105,7 +107,7 @@ public class DefaultFuture implements ResponseFuture {
                 // todo 超时
             }
         }
-        return response.getmResult();
+        return response.getResult();
     }
 
     @Override

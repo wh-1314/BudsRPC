@@ -22,10 +22,10 @@ public class InvokerInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("[BudsRPC] pre invoke");
 
+        Invocation invocation = new SimpleInvocation(invoker.getInterface(), method.getName(),
+                method.getParameterTypes(), args);
 
-        Invocation invocation = new SimpleInvocation(method.getName(), method.getParameterTypes(), args);
         Object result = invoker.invoke(invocation);
-
         System.out.println("[BudsRPC] after invoke");
         return result;
     }

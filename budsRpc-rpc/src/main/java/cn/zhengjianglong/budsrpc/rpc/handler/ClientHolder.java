@@ -4,7 +4,6 @@ import cn.zhengjianglong.budsrpc.remoting.client.NettyClient;
 import cn.zhengjianglong.budsrpc.remoting.request.Request;
 import cn.zhengjianglong.budsrpc.remoting.response.DefaultFuture;
 import cn.zhengjianglong.budsrpc.remoting.response.ResponseFuture;
-import io.netty.channel.ChannelHandler;
 
 /**
  * @author: zhengjianglong
@@ -12,7 +11,6 @@ import io.netty.channel.ChannelHandler;
  */
 public class ClientHolder {
     private static NettyClient client;
-    private static ChannelHandler channelHandler;
     private static ProviderClientHandler handler;
     private static Thread clientThread;
 
@@ -31,10 +29,7 @@ public class ClientHolder {
         clientThread.start();
     }
 
-    public static ResponseFuture send(Object msg) {
-        Request request = new Request();
-        request.setmData(msg);
-
+    public static ResponseFuture send(Request request) {
         // 同步转异步
         ResponseFuture feture = new DefaultFuture(client.getChannel(), request, 1000);
         client.send(request);

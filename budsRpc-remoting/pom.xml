@@ -34,6 +34,7 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.24.Final</version>
         </dependency>
+
         <dependency>
             <groupId>cn.zhengjianglong</groupId>
             <artifactId>budsRpc-common</artifactId>

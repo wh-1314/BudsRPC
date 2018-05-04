@@ -18,7 +18,10 @@ public class Consumer {
         String result = demoService.sayHello();
         System.out.println(result);
 
-        // ActionService actionService = (ActionService) ctx.getBean("actionService");
-        // actionService.add(4, 5);
+        demoService.doNothing();
+
+        ActionService actionService = (ActionService) ctx.getBean("actionService");
+        int value = actionService.add(4, 5);
+        System.out.println(value);
     }
 }

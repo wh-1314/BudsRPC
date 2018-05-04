@@ -4,7 +4,7 @@ package cn.zhengjianglong.budsrpc.rpc;
  * @author: zhengjianglong
  * @create: 2018-05-01 09:52
  */
-public interface Invocation {
+public interface Invocation<T> {
     /**
      * get method name.
      *
@@ -28,5 +28,8 @@ public interface Invocation {
      * @serial
      */
     Object[] getArguments();
+
+
+    Class<T> getInterface();
 
 }

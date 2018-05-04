@@ -1,5 +1,9 @@
 package cn.zhengjianglong.budsrpc.rpc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import cn.zhengjianglong.budsrpc.remoting.request.Request;
 import cn.zhengjianglong.budsrpc.remoting.response.ResponseFuture;
 import cn.zhengjianglong.budsrpc.rpc.handler.ClientHolder;
 
@@ -8,27 +12,33 @@ import cn.zhengjianglong.budsrpc.rpc.handler.ClientHolder;
  * @create: 2018-04-30 18:42
  */
 public class BudsRpcInvoker<T> implements Invoker<T> {
-    private Class<?> interfaceClass;
+    private static final Logger logger = LoggerFactory.getLogger(BudsRpcInvoker.class);
+    private Class<T> interfaceClass;
 
-    public BudsRpcInvoker(Class<?> interfaceClass) {
+    public BudsRpcInvoker(Class<T> interfaceClass) {
         this.interfaceClass = interfaceClass;
     }
 
     @Override
     public Class<T> getInterface() {
-        return null;
+        return interfaceClass;
     }
 
     @Override
     public Object invoke(Invocation invocation) {
-        System.out.println("[BudsRPC] 调用远程服务");
+        if (logger.isDebugEnabled()) {
+            logger.debug("[BudsRPC] ready to call {}", invocation.getInterface().getName());
+        }
 
-        String cmd = String.format("%s##%s##%s##%s", interfaceClass.getName(), invocation.getMethodName(),
-                invocation.getParameterTypes(), invocation.getArguments());
-
-        ResponseFuture future = ClientHolder.send(cmd);
+        Request request = new Request();
+        request.setData(invocation);
+        ResponseFuture future = ClientHolder.send(request);
         Object object = future.get();
-        System.out.println("[BudsRPC] 远程结果:" + object);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("[BudsRPC] finished to call {}, result={}",
+                    invocation.getInterface().getName(), object);
+        }
 
         return object;
     }

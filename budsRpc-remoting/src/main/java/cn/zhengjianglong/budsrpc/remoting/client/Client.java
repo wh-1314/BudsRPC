@@ -13,7 +13,7 @@ public interface Client {
      *
      * @param request
      */
-    void send(Request request);
+    void send(Object request);
 
     /**
      * reconnect.
